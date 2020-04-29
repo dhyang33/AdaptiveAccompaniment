@@ -117,7 +117,8 @@ def getSquaredWindow(N, H_s):
 def phase_vocoder(audio, stretch, sr=22050, N=2048):
   hann = ss.hann(N, sym=False)
   H_s = int(np.round(N/4))
-  instances = [int(m*H_s) for m in range(len(audio)//H_s)]
+  #instances = [int(m*H_s) for m in range(len(audio)//H_s)]
+  instances = [int(m*H_s) for m in range(len(stretch)//H_s)]
   analysis_instances = [stretch[instance] for instance in instances]
   frames = [audio[analysis_instances[k]:analysis_instances[k]+N]             for k in range(1,len(analysis_instances)) if analysis_instances[k]+N< len(audio)]
   spectrogram = np.zeros((N//2+1,len(frames)))
