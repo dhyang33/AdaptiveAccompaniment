@@ -59,20 +59,22 @@ def globalDTW(C, steps, weights, segment_lengths):
     path -- a matrix with 2 columns specifying the optimal subsequence path.  Each row 
             specifies the (row, col) coordinate.
     '''
-    D = np.zeros(C.shape)
+    D = np.full(C.shape, np.inf)
     B = np.zeros((C.shape[0],C.shape[1],2))
 
     ### START CODE BLOCK ###
     inf = float("inf")
-    D[0,:]=C[0,:]
-    cur_segment = 0
-    for i in range(1, D.shape[0]):
-        for j in range(D.shape[1]):
+    for k in range(C.shape[0]):
+        D[k,0]=C[k,0]
+    for k in range(C.shape[1]):
+        D[0,k]=C[0,k]
+    for i in range(1,D.shape[0]):
+        for j in range(1,D.shape[1]):
             steps.append([1,int(segment_lengths[i]/2)])
             weights.append(1)
             opt=[inf for i in range(len(steps))]
             for index, s in enumerate(steps):
-                if i-s[0] >= 0 and j-s[1]>=0 and D[i-s[0],j-s[1]]!=inf:
+                if i-s[0] >= 0 and j-s[1]>=0 and D[i-s[0],j-s[1]]!=np.inf:
                     previousCell = D[i-s[0],j-s[1]]
                     opt[index] = previousCell +C[i,j]*weights[index]
             optimal = min(opt)
@@ -80,8 +82,6 @@ def globalDTW(C, steps, weights, segment_lengths):
             D[i][j]=optimal
             B[i][j][0]=steps[opt_index][0]
             B[i][j][1]=steps[opt_index][1]
-            if opt_index == 1:
-              cur_segment+=1
             if len(weights)>1:
               steps = [[0,1]]
               weights = [0]
@@ -121,8 +121,8 @@ def global_backtrace(D, B, steps):
         step = B[r,c]
         r = int(np.round(r - step[0]))
         c = int(np.round(c - step[1]))
-        if r==0:
-          path.append((r,c))
+        
+    path.append((r,c))
     
     ### END CODE BLOCK ###
     
