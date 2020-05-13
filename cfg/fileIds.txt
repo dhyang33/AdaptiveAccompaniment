@@ -35,3 +35,11 @@ p4s_perf15
 p4s_perf2
 p4s_perf8
 p4s_perf9
+p5s_perf1
+p5s_perf2
+p5s_perf3
+p5s_perf4
+p5f_perf1
+p5f_perf2
+p5f_perf3
+p5f_perf4
